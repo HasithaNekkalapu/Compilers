@@ -81,13 +81,14 @@ parser code {:
 :};
 
 /* Terminals (tokens returned by the scanner). */
-terminal String  ID, STRING_LITERAL;
-terminal Integer INTEGER_LITERAL;
-terminal Float   REAL_LITERAL;
-terminal         AND, ARRAY, BEGIN, BY, DIV, DO, ELSE, ELSIF, END, EXIT, FOR, IF, IS, LOOP, MOD,
-                 NOT, OF, OR, PROCEDURE, PROGRAM, READ, RECORD, RETURN, THEN, TO, TYPE, VAR, WHILE,
-                 WRITE, ASGN, PLUS, MINUS, TIMES, SLASH, LT, LEQ, GT, GEQ, EQ, NEQ, COLON, SEMI,
-                 COMMA, DOT, LPAREN, RPAREN, LSQBRA, RSQBRA, LCUBRA, RCUBRA, UMINUS;
+
+terminal String  	ID, STRING_LITERAL;
+terminal Integer	INTEGER_LITERAL;
+terminal Float   	REAL_LITERAL;
+terminal         	AND, ARRAY, BEGIN, BY, DIV, DO, ELSE, ELSIF, END, EXIT, FOR, IF, IS, LOOP, MOD,
+                	NOT, OF, OR, PROCEDURE, PROGRAM, READ, RECORD, RETURN, THEN, TO, TYPE, VAR, WHILE,
+                	WRITE, ASGN, PLUS, MINUS, TIMES, SLASH, LT, LEQ, GT, GEQ, EQ, NEQ, COLON, SEMI,
+                 	COMMA, DOT, LPAREN, RPAREN, LSQBRA, RSQBRA, LCUBRA, RCUBRA, UMINUS;
 
 non terminal        program;
 non terminal        body;
@@ -102,23 +103,23 @@ non terminal		component, component_list;
 non terminal    	formal_params, fp_section, ID_list, else_list;
 non terminal		actual_params;
 non terminal		record_inits, array_inits, array_init, array_init_list, record_init_list;
-non terminal		declaration_list, type_decl_list, procedure_decl_list, fp_section_list;
-
+non terminal		declaration_list, type_decl_list, proc_declist, fp_section_list;
 
 precedence nonassoc	ELSE;
 precedence nonassoc	MINUS, NOT;
 precedence left		PLUS, MINUS, TIMES, SLASH, DIV, MOD, OR, AND;
 precedence left		GT, LT, EQ, GEQ, LEQ, NEQ;
 precedence left		IF;
+
 start with program;
 
 program         ::= PROGRAM IS body SEMI            
                 ;
 body            ::= declaration_list BEGIN statement_list END        
                 ;
-declaration_list ::= declaration_list declaration
-					|
-					;
+declaration_list::= declaration_list declaration
+				|
+				;
 declaration		::= VAR var_decls
 				| TYPE type_decls
 				| PROCEDURE procedure_decls
@@ -138,11 +139,11 @@ type_decl_list	::= type_decl_list AND type_decl
 				;
 type_decl		::=	ID IS type SEMI
 				;
-procedure_decls	::= procedure_decl_list
+procedure_decls	::= proc_declist
 				;
-procedure_decl_list	::= procedure_decl_list AND procedure_decl
-					| procedure_decl
-					;
+proc_declist	::= proc_declist AND procedure_decl
+				| procedure_decl
+				;
 procedure_decl	::= ID formal_params IS body SEMI
 				| ID formal_params COLON typename IS body SEMI
 				;	
@@ -151,7 +152,7 @@ typename		::= ID
 type			::= ARRAY OF typename
 				| RECORD component_list END
 				;
-component_list   ::= component_list component 
+component_list  ::= component_list component 
 				|	
 				;
 component		::= ID COLON typename SEMI
@@ -162,7 +163,7 @@ formal_params	::= LPAREN fp_section_list	RPAREN
 ID_list   		::= ID_list COMMA ID 
 				| ID
 				;
-fp_section_list  ::= fp_section SEMI fp_section
+fp_section_list ::= fp_section SEMI fp_section
 				| fp_section
 				;
 fp_section		::= ID_list COLON typename
@@ -172,22 +173,20 @@ statement       ::=  lvalue ASGN expression SEMI
 				| READ LPAREN lvalue_list RPAREN SEMI
 				| WRITE write_params SEMI
 				| IF expression  THEN statement_list 
-				else_list
-				END SEMI
+					else_list END SEMI
 				| IF expression  THEN statement_list 
-				else_list
-				ELSE statement_list END SEMI
+					else_list ELSE statement_list END SEMI
 				| WHILE expression DO statement_list END SEMI
 				|LOOP statement_list END SEMI
 				| FOR ID ASGN expression TO expression
-				DO statement_list END SEMI
+				  DO statement_list END SEMI
 				| FOR ID ASGN expression TO expression BY expression
-				DO statement_list END SEMI
+				  DO statement_list END SEMI
 				| EXIT SEMI
 				| RETURN expression SEMI         
-                |    RETURN SEMI                      
+                | RETURN SEMI                      
                 ;
-statement_list   ::= statement_list statement 
+statement_list  ::= statement_list statement 
 				|
                 ;
 else_list 		::= else_list ELSIF expression THEN statement_list	
@@ -196,7 +195,7 @@ else_list 		::= else_list ELSIF expression THEN statement_list
 write_params	::= LPAREN write_expr_list RPAREN
 				| LPAREN RPAREN
 				;				
-write_expr_list   ::= write_expr_list COMMA write_expr 
+write_expr_list ::= write_expr_list COMMA write_expr 
 				| write_expr
 				;				
 write_expr		::=STRING_LITERAL
@@ -225,7 +224,7 @@ expression      ::=	number
 				| ID record_inits
 				| ID array_inits  
                 ;
-expression_list  ::= expression_list COMMA expression     
+expression_list ::= expression_list COMMA expression     
 				| expression
                 ;				
 lvalue_list		::= lvalue COMMA lvalue
@@ -246,11 +245,11 @@ record_init_list::= record_init_list SEMI ID ASGN expression
 array_inits		::= LCUBRA RCUBRA
 				| LCUBRA array_init_list RCUBRA
 				;
-array_init_list   ::= array_init_list COMMA array_init 
+array_init_list ::= array_init_list COMMA array_init 
 				|	array_init
 				;				
-array_init		::= expression
-				| expression OF expression
+array_init		::= expression OF expression
+				|   expression
 				;
 number			::= INTEGER_LITERAL
 				|	REAL_LITERAL
