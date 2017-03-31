@@ -11,7 +11,6 @@ public interface sym {
   public static final int STRING_LITERAL = 3;
   public static final int ASGN = 35;
   public static final int SLASH = 39;
-  public static final int UMINUS = 56;
   public static final int ELSIF = 13;
   public static final int LPAREN = 50;
   public static final int SEMI = 47;
@@ -121,8 +120,7 @@ public interface sym {
   "LSQBRA",
   "RSQBRA",
   "LCUBRA",
-  "RCUBRA",
-  "UMINUS"
+  "RCUBRA"
   };
 }
 
