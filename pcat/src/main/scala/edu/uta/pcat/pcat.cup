@@ -219,7 +219,7 @@ expression 			::= INTEGER_LITERAL:n 							{: RESULT= new IntConst(n); :}
 					| 	REAL_LITERAL:n								{: RESULT= new RealConst(n); :}
 					|	lvalue:lval									{: RESULT= new LvalExp(lval) ; :}
 					|	LPAREN expression:exp RPAREN				{: RESULT= exp ; :}
-					|	MINUS expression:exp						{: RESULT= new UnOpExp("minus",exp); :}		
+					|	MINUS expression:exp						{: RESULT= new UnOpExp("uminus",exp); :}		
 					|	NOT expression:exp							{: RESULT= new UnOpExp("not",exp); :}		
 					|	expression:e1 PLUS expression:e2			{: RESULT= new BinOpExp ("plus",e1,e2)	;:}
 					|	expression:e1 MINUS expression:e2			{: RESULT= new BinOpExp ("minus",e1,e2)	;:}

@@ -1553,7 +1553,7 @@ class CUP$PcatParser$actions {
 		int expleft = ((java_cup.runtime.Symbol)CUP$PcatParser$stack.peek()).left;
 		int expright = ((java_cup.runtime.Symbol)CUP$PcatParser$stack.peek()).right;
 		Expr exp = (Expr)((java_cup.runtime.Symbol) CUP$PcatParser$stack.peek()).value;
-		 RESULT= new UnOpExp("minus",exp); 
+		 RESULT= new UnOpExp("uminus",exp); 
               CUP$PcatParser$result = parser.getSymbolFactory().newSymbol("expression",23, ((java_cup.runtime.Symbol)CUP$PcatParser$stack.elementAt(CUP$PcatParser$top-1)), ((java_cup.runtime.Symbol)CUP$PcatParser$stack.peek()), RESULT);
             }
           return CUP$PcatParser$result;
