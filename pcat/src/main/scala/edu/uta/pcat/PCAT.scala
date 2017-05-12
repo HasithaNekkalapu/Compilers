@@ -9,7 +9,7 @@ object PCAT {
   val use_project_1_solution = true
   val use_project_2_and_3_solution = true
   val use_project_4_solution = true
-  val use_project_5_solution = false
+  val use_project_5_solution = true
 
   var out: PrintStream = null
   var program_ast: ProcDecl = null
